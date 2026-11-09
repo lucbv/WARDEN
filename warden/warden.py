@@ -376,6 +376,8 @@ def graph_creator(curr_depth, previous_path, dfs, chosen_dsets):
         list_of_graphs = []
         MARGIN = 0.1
         marker_list = ['circle', 'square', 'diamond', 'triangle-up', 'star', 'hourglass', 'cross-thin', 'x-thin', 'asterisk', 'hash']
+        color_list  = px.colors.qualitative.Plotly
+        del color_list[1]
         with LoggingTimer("TIMER FOR graph_creator()::ForLoop:"):
             for path in unique_paths:
                 ymin = None
@@ -399,7 +401,8 @@ def graph_creator(curr_depth, previous_path, dfs, chosen_dsets):
                                               y=dff_path["measurement"],
                                               name=chosen_dsets[setIdx],
                                               mode="lines+markers",
-                                              marker={'color': ['red' if not pd.isna(a) else 'cornflowerblue' for a in dff_path['note']],
+                                              line={'color': color_list[setIdx % len(color_list)]},
+                                              marker={'color': ['red' if not pd.isna(a) else color_list[setIdx % len(color_list)] for a in dff_path['note']],
                                                       'symbol': ['pentagon' if not pd.isna(a) else marker_list[setIdx % len(marker_list)] for a in dff_path['note']]},
                                               hovertemplate=("Date: %{x}<br>" +
                                                              "Measurement: %{y}<br>" +
